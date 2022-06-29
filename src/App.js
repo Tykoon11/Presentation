@@ -28,7 +28,7 @@ function App() {
     const fetchData = async () => {
       try {
         setLoader(true);
-        axios
+        await axios
           .get(BASE_URL)
           .then((res) => {
             const firstCurrency = Object.keys(res.data.rates)[0];
@@ -50,11 +50,14 @@ function App() {
 
   // to link the change in options to input
   useEffect(() => {
+    const runThis = async () => {
     if (fromCurrency != null && toCurrency != null) {
-      axios
+      await axios
         .get(`${BASE_URL}? base=${fromCurrency}&symbols=${toCurrency}`)
         .then((res) => setExchangeRate(res.data.rates[toCurrency]));
     }
+    } 
+    runThis()
   }, [fromCurrency, toCurrency]);
 
   //function to handle changes in amount
